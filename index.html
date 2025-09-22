@@ -1207,7 +1207,7 @@
         ];
 
         let appState = {
-            currentView: 'inbox',
+            currentView: 'tickets', // tickets | ticket | student-profile | students | reports | knowledge | settings | components
             selectedTicketId: null,
             selectedStudentId: null,
             device: 'desktop', // desktop | tablet | mobile
@@ -1648,7 +1648,7 @@
         // Initial render
         function init() {
             // Use hash if present
-            const initial = location.hash.replace('#', '') || 'inbox'; // đổi từ 'dashboard' thành 'inbox'
+            const initial = location.hash.replace('#', '') || 'ticket'; // đổi từ 'dashboard' thành 'inbox'
             setView(initial);
             updateKpis();
             renderRecentTickets();
