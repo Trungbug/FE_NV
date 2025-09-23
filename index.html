@@ -414,6 +414,52 @@
             height: 56px;
             box-shadow: inset 0 0 0 1px rgba(2, 8, 23, .06);
         }
+
+        @media (max-width: 500px) {
+
+            /* Điều chỉnh form filter */
+            #inboxFilters {
+                flex-direction: column !important;
+                gap: 8px !important;
+                padding: 12px !important;
+            }
+
+            #inboxFilters .flex-wrap {
+                flex-direction: column !important;
+                width: 100% !important;
+                gap: 8px !important;
+            }
+
+            /* Làm cho các input, select full width */
+            #filterStatus,
+            #filterPriority,
+            #filterSearch,
+            #clearFilters {
+                width: 100% !important;
+                min-width: 100% !important;
+            }
+
+            /* Điều chỉnh bảng ticket */
+            .table th,
+            .table td {
+                padding: 8px !important;
+                font-size: 13px !important;
+            }
+
+            /* Ẩn cột không quan trọng trên mobile */
+            .table th:nth-child(4),
+            .table td:nth-child(4),
+            .table th:nth-child(5),
+            .table td:nth-child(5) {
+                display: none !important;
+            }
+
+            /* Làm cho pill status và priority gọn hơn */
+            .pill {
+                padding: 2px 8px !important;
+                font-size: 11px !important;
+            }
+        }
     </style>
 </head>
 
@@ -771,14 +817,24 @@
 
                         <!-- TICKET DETAIL -->
                         <div data-view="ticket">
+                            <!-- Thêm vào phần header của ticket detail, cạnh nút "Set Pending" -->
                             <div class="mb-3 flex items-center justify-between">
                                 <div>
-                                    <div class="h1 flex items-center gap-2"><span id="ticketTitle">Ticket</span><span
-                                            id="ticketStatusPill" class="pill pill-open">Open</span></div>
+                                    <div class="h1 flex items-center gap-2">
+                                        <span id="ticketTitle">Ticket</span>
+                                        <span id="ticketStatusPill" class="pill pill-open">Open</span>
+                                    </div>
                                     <div class="small">Assigned to: <span id="ticketAssignee">—</span></div>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <button class="btn" data-nav="inbox">Back to Inbox</button>
+                                    <button id="escalateBtn" class="btn btn-secondary">
+                                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                            <path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                        Escalate
+                                    </button>
                                     <button id="toggleStatusBtn" class="btn btn-secondary">Set Pending</button>
                                 </div>
                             </div>
@@ -1258,6 +1314,7 @@
             $('#kpiCSAT').textContent = '4.7/5';
         }
 
+
         function renderRecentTickets() {
             const recent = tickets.slice(0, 4);
             const c = $('#recentTickets'); c.innerHTML = '';
@@ -1346,7 +1403,14 @@
                 renderRecentTickets();
                 updateKpis();
             };
-
+            $('#escalateBtn').onclick = () => {
+                t.priority = 'High';
+                t.updated = 'Just now';
+                showToast('Đã leo thang ticket ' + t.id);
+                openTicket(t.id); // re-render
+                renderTicketTable();
+                renderRecentTickets();
+            };
             setView('ticket');
         }
 
