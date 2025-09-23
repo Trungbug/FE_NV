@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="vi" data-theme="light">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>EduSys CSKH Portal — V1 Draft</title>
+    <title>EduSys CSKH Portal — V2 (AI Enhanced)</title>
 
     <!-- Google Font: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -116,6 +116,7 @@
             font-weight: 600;
             padding: .625rem .9rem;
             transition: all .2s ease;
+            cursor: pointer;
         }
 
         .btn:disabled {
@@ -142,6 +143,19 @@
 
         .btn-secondary:hover {
             background: rgba(30, 91, 195, .06);
+        }
+
+        .btn-ai {
+            background: #F1F5F9;
+            color: #334155;
+            width: 100%;
+            justify-content: flex-start;
+            text-align: left;
+            padding: .5rem .75rem;
+        }
+
+        .btn-ai:hover {
+            background: #E2E8F0;
         }
 
         .card {
@@ -174,6 +188,22 @@
             background: rgba(0, 160, 138, .12);
             color: var(--color-secondary);
         }
+
+        .pill-sentiment-negative {
+            background-color: #FEF2F2;
+            color: #DC2626;
+        }
+
+        .pill-sentiment-neutral {
+            background-color: #F1F5F9;
+            color: #475569;
+        }
+
+        .pill-sentiment-positive {
+            background-color: #F0FDF4;
+            color: #22C55E;
+        }
+
 
         /* Device Artboard Shell */
         .studio-shell {
@@ -369,19 +399,6 @@
             border-bottom-right-radius: 12px;
         }
 
-        /* Status colors for tickets */
-        .status-open {
-            color: var(--color-primary);
-        }
-
-        .status-pending {
-            color: var(--color-accent);
-        }
-
-        .status-resolved {
-            color: var(--color-secondary);
-        }
-
         /* Utility icons */
         .icon {
             width: 18px;
@@ -471,7 +488,7 @@
             <div class="flex items-center gap-3">
                 <div class="flex items-center gap-2">
                     <span class="bg-primary text-white font-extrabold rounded-md px-2.5 py-1">EduSys</span>
-                    <span class="text-neutral-700 font-semibold">CSKH Portal · V1 Draft</span>
+                    <span class="text-neutral-700 font-semibold">CSKH Portal · V2 (AI Enhanced)</span>
                 </div>
                 <span class="hidden sm:inline small ml-3 text-neutral-700">Preview in Desktop, Tablet, or Mobile
                     artboards</span>
@@ -518,7 +535,7 @@
                             <form id="globalSearchForm" class="w-full" onsubmit="event.preventDefault();">
                                 <div class="relative">
                                     <input id="globalSearchInput" type="search"
-                                        placeholder="Search tickets, students..."
+                                        placeholder="Tìm kiếm tickets, học viên..."
                                         class="w-full bg-[#F1F5F9] rounded-lg pl-10 pr-4 py-2 outline-none focus:ring-2 focus:ring-[var(--color-primary)] placeholder:text-gray-500" />
                                     <svg class="w-5 h-5 text-gray-500 absolute left-3 top-1/2 -translate-y-1/2"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -547,14 +564,14 @@
                                 </button>
                                 <div id="notifMenu" class="dropdown hidden">
                                     <div class="p-3 border-b">
-                                        <div class="font-semibold">Notifications</div>
-                                        <div class="small">Quick updates for your day</div>
+                                        <div class="font-semibold">Thông báo</div>
+                                        <div class="small">Cập nhật nhanh trong ngày</div>
                                     </div>
                                     <div id="notifList" class="max-h-64 overflow-auto p-2">
                                         <!-- filled by JS -->
                                     </div>
                                     <div class="p-2">
-                                        <button id="markAllRead" class="btn w-full">Mark all as read</button>
+                                        <button id="markAllRead" class="btn w-full">Đánh dấu đã đọc</button>
                                     </div>
                                 </div>
                             </div>
@@ -564,7 +581,7 @@
                                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                     <path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round" />
                                 </svg>
-                                New Ticket
+                                Ticket Mới
                             </button>
 
                             <!-- Avatar -->
@@ -574,15 +591,15 @@
                                 <div id="avatarMenu" class="dropdown hidden">
                                     <div class="p-3 border-b">
                                         <div class="font-semibold">Linh Tran</div>
-                                        <div class="small">CSKH Staff</div>
+                                        <div class="small">Nhân viên CSKH</div>
                                     </div>
                                     <div class="p-1">
                                         <button class="w-full text-left px-3 py-2 rounded hover:bg-gray-50"
-                                            data-nav="settings">Profile & Settings</button>
+                                            data-nav="settings">Hồ sơ & Cài đặt</button>
                                         <button class="w-full text-left px-3 py-2 rounded hover:bg-gray-50"
                                             data-nav="components">Component Library</button>
                                         <button class="w-full text-left px-3 py-2 rounded hover:bg-gray-50"
-                                            id="signOutBtn">Sign out</button>
+                                            id="signOutBtn">Đăng xuất</button>
                                     </div>
                                 </div>
                             </div>
@@ -609,17 +626,22 @@
                                         fill="none" stroke="currentColor">
                                         <path d="M3 7l9 6 9-6" stroke-width="2" />
                                         <path d="M21 7v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7" stroke-width="2" />
-                                    </svg><span class="label">Inbox (Tickets)</span></button></li>
+                                    </svg><span class="label">Hộp thư (Tickets)</span></button></li>
                             <li><button class="nav-item" data-nav="students"><svg class="icon" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor">
                                         <path d="M16 14a4 4 0 10-8 0" stroke-width="2" />
                                         <circle cx="12" cy="8" r="3" stroke-width="2" />
                                         <path d="M20 21v-2a4 4 0 00-3-3.87M4 21v-2a4 4 0 013-3.87" stroke-width="2" />
-                                    </svg><span class="label">Students</span></button></li>
+                                    </svg><span class="label">Học viên</span></button></li>
+                            <li><button class="nav-item" data-nav="ai-agent"><svg class="icon" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor">
+                                        <path d="M12 2L9 9l-7 2.5L9 14l3 7 3-7 7-2.5L15 9l-3-2z" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg><span class="label">AI Agent</span></button></li>
                             <li><button class="nav-item" data-nav="reports"><svg class="icon" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor">
                                         <path d="M4 19V5m6 14V10m6 9V4" stroke-width="2" stroke-linecap="round" />
-                                    </svg><span class="label">Reports</span></button></li>
+                                    </svg><span class="label">Báo cáo</span></button></li>
                             <li><button class="nav-item" data-nav="knowledge"><svg class="icon" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor">
                                         <path d="M4 19.5A2.5 2.5 0 016.5 17H20" stroke-width="2" />
@@ -631,11 +653,11 @@
                                         <path
                                             d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06A1.65 1.65 0 0015 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 008.6 15a1.65 1.65 0 00-1.82-.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06A2 2 0 017.04 4.3l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0015 8.6a1.65 1.65 0 001.82-.33l.06-.06A2 2 0 0121.7 11.04l-.06.06A1.65 1.65 0 0021.4 13a1.65 1.65 0 00.33 1.82z"
                                             stroke-width="2" />
-                                    </svg><span class="label">Settings</span></button></li>
+                                    </svg><span class="label">Cài đặt</span></button></li>
                         </ul>
 
                         <div class="mt-6 p-2">
-                            <button id="collapseBtn" class="w-full btn">Toggle collapse</button>
+                            <button id="collapseBtn" class="w-full btn">Thu gọn</button>
                         </div>
                     </nav>
                 </aside>
@@ -644,19 +666,19 @@
                 <section class="content" data-layer="content">
                     <div class="container-12">
                         <!-- DASHBOARD -->
-                        <div data-view="dashboard" class="active">
+                        <div data-view="dashboard">
                             <div class="mb-4">
                                 <div class="h1">Dashboard</div>
-                                <div class="small">Overview of your day</div>
+                                <div class="small">Tổng quan công việc trong ngày</div>
                             </div>
 
                             <!-- KPI cards -->
                             <div class="grid-12">
-                                <div class="card p-4" data-grid-span data-span-desktop="4" data-span-tablet="6"
+                                <div class="card p-4" data-grid-span data-span-desktop="3" data-span-tablet="6"
                                     data-span-mobile="12">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <div class="small">Open Tickets</div>
+                                            <div class="small">Tickets đang mở</div>
                                             <div class="text-3xl font-extrabold mt-1" id="kpiOpen">0</div>
                                         </div>
                                         <div
@@ -668,26 +690,43 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card p-4" data-grid-span data-span-desktop="4" data-span-tablet="6"
+                                <div class="card p-4" data-grid-span data-span-desktop="3" data-span-tablet="6"
                                     data-span-mobile="12">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <div class="small">Avg Response Time</div>
+                                            <div class="small">Hỗ trợ bởi AI</div>
+                                            <div class="text-3xl font-extrabold mt-1" id="kpiAiAssisted">0%</div>
+                                        </div>
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-indigo-50 text-indigo-500 grid place-items-center">
+                                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <path d="M12 2L9 9l-7 2.5L9 14l3 7 3-7 7-2.5L15 9l-3-2z"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card p-4" data-grid-span data-span-desktop="3" data-span-tablet="6"
+                                    data-span-mobile="12">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="small">TG phản hồi TB</div>
                                             <div class="text-3xl font-extrabold mt-1" id="kpiART">—</div>
                                         </div>
                                         <div
                                             class="w-10 h-10 rounded-lg bg-orange-50 text-accent grid place-items-center">
                                             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                                 <path d="M12 8v4l3 3" stroke-width="2" stroke-linecap="round" />
+                                                <circle cx="12" cy="12" r="9" stroke-width="2" />
                                             </svg>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card p-4" data-grid-span data-span-desktop="4" data-span-tablet="12"
+                                <div class="card p-4" data-grid-span data-span-desktop="3" data-span-tablet="6"
                                     data-span-mobile="12">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <div class="small">CSAT Score</div>
+                                            <div class="small">Điểm CSAT</div>
                                             <div class="text-3xl font-extrabold mt-1" id="kpiCSAT">—</div>
                                         </div>
                                         <div
@@ -705,8 +744,8 @@
                                 <div class="card p-4" data-grid-span data-span-desktop="8" data-span-tablet="12"
                                     data-span-mobile="12">
                                     <div class="flex items-center justify-between mb-2">
-                                        <div class="h2">Ticket Volume (Last 7 days)</div>
-                                        <div class="small text-neutral-700">Line chart placeholder</div>
+                                        <div class="h2">Lượng ticket (7 ngày qua)</div>
+                                        <div class="small text-neutral-700">Biểu đồ đường (placeholder)</div>
                                     </div>
                                     <div class="mt-3">
                                         <svg viewBox="0 0 600 220" class="w-full" aria-label="Ticket Volume">
@@ -749,36 +788,36 @@
                                 <!-- Recent tickets -->
                                 <div class="card p-4" data-grid-span data-span-desktop="4" data-span-tablet="12"
                                     data-span-mobile="12">
-                                    <div class="h2 mb-2">Recent Tickets</div>
-                                    <div class="small mb-3 text-neutral-700">Preview of the latest activity</div>
+                                    <div class="h2 mb-2">Tickets gần đây</div>
+                                    <div class="small mb-3 text-neutral-700">Xem trước các hoạt động mới nhất</div>
                                     <div id="recentTickets" class="space-y-2">
                                         <!-- filled by JS -->
                                     </div>
                                     <div class="mt-3">
-                                        <button class="btn btn-secondary w-full" data-nav="inbox">Go to Inbox</button>
+                                        <button class="btn btn-secondary w-full" data-nav="inbox">Đến Hộp thư</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- INBOX -->
-                        <div data-view="inbox">
+                        <div data-view="inbox" class="active">
                             <div class="mb-4">
-                                <div class="h1">Inbox</div>
-                                <div class="small">Filter and manage tickets</div>
+                                <div class="h1">Hộp thư</div>
+                                <div class="small">Lọc và quản lý tickets</div>
                             </div>
 
                             <!-- Filters -->
                             <form id="inboxFilters" class="card p-3 mb-4" onsubmit="event.preventDefault();">
                                 <div class="flex flex-wrap items-center gap-2">
                                     <select id="filterStatus" class="bg-[#F8FAFC] border rounded-lg px-3 py-2">
-                                        <option value="">All statuses</option>
+                                        <option value="">Tất cả trạng thái</option>
                                         <option>Open</option>
                                         <option>Pending</option>
                                         <option>Resolved</option>
                                     </select>
                                     <select id="filterPriority" class="bg-[#F8FAFC] border rounded-lg px-3 py-2">
-                                        <option value="">All priorities</option>
+                                        <option value="">Tất cả độ ưu tiên</option>
                                         <option>Low</option>
                                         <option>Medium</option>
                                         <option>High</option>
@@ -786,14 +825,14 @@
                                     <div class="relative flex-1 min-w-[200px]">
                                         <input id="filterSearch"
                                             class="w-full bg-[#F8FAFC] border rounded-lg pl-9 pr-3 py-2"
-                                            placeholder="Search subject...">
+                                            placeholder="Tìm theo chủ đề...">
                                         <svg class="w-4 h-4 text-gray-500 absolute left-3 top-1/2 -translate-y-1/2"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                             <circle cx="11" cy="11" r="7" stroke-width="2" />
                                             <path d="M20 20l-3-3" stroke-width="2" stroke-linecap="round"></path>
                                         </svg>
                                     </div>
-                                    <button id="clearFilters" class="btn">Clear</button>
+                                    <button id="clearFilters" class="btn">Xóa bộ lọc</button>
                                 </div>
                             </form>
 
@@ -801,11 +840,11 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Subject</th>
-                                            <th>Status</th>
-                                            <th>Priority</th>
-                                            <th>Channel</th>
-                                            <th>Updated</th>
+                                            <th>Chủ đề</th>
+                                            <th>Trạng thái</th>
+                                            <th>Ưu tiên</th>
+                                            <th>Kênh</th>
+                                            <th>Cập nhật</th>
                                         </tr>
                                     </thead>
                                     <tbody id="ticketTableBody" data-layer="table/ticket-row">
@@ -817,68 +856,107 @@
 
                         <!-- TICKET DETAIL -->
                         <div data-view="ticket">
-                            <!-- Thêm vào phần header của ticket detail, cạnh nút "Set Pending" -->
-                            <div class="mb-3 flex items-center justify-between">
+                            <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
                                 <div>
                                     <div class="h1 flex items-center gap-2">
                                         <span id="ticketTitle">Ticket</span>
                                         <span id="ticketStatusPill" class="pill pill-open">Open</span>
                                     </div>
-                                    <div class="small">Assigned to: <span id="ticketAssignee">—</span></div>
+                                    <div class="small">Phụ trách: <span id="ticketAssignee">—</span></div>
                                 </div>
                                 <div class="flex items-center gap-2">
-                                    <button class="btn" data-nav="inbox">Back to Inbox</button>
+                                    <button class="btn" data-nav="inbox">Quay lại Hộp thư</button>
                                     <button id="escalateBtn" class="btn btn-secondary">
                                         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                             <path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
-                                        Escalate
+                                        Leo thang
                                     </button>
-                                    <button id="toggleStatusBtn" class="btn btn-secondary">Set Pending</button>
+                                    <button id="toggleStatusBtn" class="btn btn-secondary">Chuyển Pending</button>
                                 </div>
                             </div>
 
                             <div class="grid-12">
-                                <div class="card p-4" data-grid-span data-span-desktop="8" data-span-tablet="12"
-                                    data-span-mobile="12">
-                                    <div class="h2 mb-3">Conversation</div>
-                                    <div id="conversation" class="space-y-3 min-h-[220px]">
-                                        <!-- bubbles -->
-                                    </div>
-                                    <form id="replyForm" class="mt-3" onsubmit="event.preventDefault();">
-                                        <textarea id="replyInput" class="w-full bg-[#F8FAFC] border rounded-lg p-3"
-                                            rows="3" placeholder="Write a reply..."></textarea>
-                                        <div class="flex items-center justify-between mt-2">
-                                            <div class="small text-neutral-700">Reply will be added to the conversation
-                                            </div>
-                                            <button class="btn btn-primary" id="sendReplyBtn">
-                                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                                    <path d="M22 2L11 13" stroke-width="2" />
-                                                    <path d="M22 2l-7 20-4-9-9-4 20-7z" stroke-width="2"
-                                                        stroke-linejoin="round" />
-                                                </svg>
-                                                Send
-                                            </button>
+                                <!-- Conversation Panel -->
+                                <div class="flex flex-col gap-4" data-grid-span data-span-desktop="8"
+                                    data-span-tablet="12" data-span-mobile="12">
+                                    <div class="card p-4">
+                                        <div class="h2 mb-3">Hội thoại</div>
+                                        <div id="conversation" class="space-y-3 min-h-[220px]">
+                                            <!-- bubbles -->
                                         </div>
-                                    </form>
+                                    </div>
+                                    <div class="card p-4">
+                                        <form id="replyForm" onsubmit="event.preventDefault();">
+                                            <textarea id="replyInput" class="w-full bg-[#F8FAFC] border rounded-lg p-3"
+                                                rows="3" placeholder="Nhập phản hồi..."></textarea>
+                                            <div class="flex items-center justify-between mt-2">
+                                                <div class="small text-neutral-700">Phản hồi sẽ được thêm vào hội thoại.
+                                                </div>
+                                                <button class="btn btn-primary" id="sendReplyBtn">
+                                                    <svg class="icon" viewBox="0 0 24 24" fill="none"
+                                                        stroke="currentColor">
+                                                        <path d="M22 2L11 13" stroke-width="2" />
+                                                        <path d="M22 2l-7 20-4-9-9-4 20-7z" stroke-width="2"
+                                                            stroke-linejoin="round" />
+                                                    </svg>
+                                                    Gửi
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
 
-                                <div class="card p-4" data-grid-span data-span-desktop="4" data-span-tablet="12"
-                                    data-span-mobile="12">
-                                    <div class="h2 mb-3">Details</div>
-                                    <div class="space-y-2 body">
-                                        <div><span class="small">Ticket ID:</span> <span id="ticketIdText"
-                                                class="font-semibold">—</span></div>
-                                        <div><span class="small">Student:</span> <button id="goToStudentBtn"
-                                                class="text-primary font-semibold underline underline-offset-2">—</button>
+                                <!-- Details & AI Panel (Right Side) -->
+                                <div class="flex flex-col gap-4" data-grid-span data-span-desktop="4"
+                                    data-span-tablet="12" data-span-mobile="12">
+                                    <div class="card p-4">
+                                        <div class="h2 mb-3">Chi tiết</div>
+                                        <div class="space-y-2 body">
+                                            <div><span class="small">ID Ticket:</span> <span id="ticketIdText"
+                                                    class="font-semibold">—</span></div>
+                                            <div><span class="small">Học viên:</span> <button id="goToStudentBtn"
+                                                    class="text-primary font-semibold underline underline-offset-2">—</button>
+                                            </div>
+                                            <div><span class="small">Ưu tiên:</span> <span id="ticketPriorityText"
+                                                    class="font-semibold">—</span></div>
+                                            <div><span class="small">Kênh:</span> <span id="ticketChannelText"
+                                                    class="font-semibold">—</span></div>
+                                            <div><span class="small">Cập nhật lần cuối:</span> <span
+                                                    id="ticketUpdatedText" class="font-semibold">—</span></div>
                                         </div>
-                                        <div><span class="small">Priority:</span> <span id="ticketPriorityText"
-                                                class="font-semibold">—</span></div>
-                                        <div><span class="small">Channel:</span> <span id="ticketChannelText"
-                                                class="font-semibold">—</span></div>
-                                        <div><span class="small">Last updated:</span> <span id="ticketUpdatedText"
-                                                class="font-semibold">—</span></div>
+                                    </div>
+
+                                    <!-- AI Agent Panel -->
+                                    <div id="aiAgentPanel" class="card p-4">
+                                        <div class="h2 mb-3 flex items-center gap-2">
+                                            <svg class="icon text-indigo-500" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor">
+                                                <path d="M12 2L9 9l-7 2.5L9 14l3 7 3-7 7-2.5L15 9l-3-2z"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                            <span>AI Agent</span>
+                                        </div>
+                                        <!-- AI Summary -->
+                                        <div class="mb-3">
+                                            <div class="small font-semibold">Tóm tắt tự động</div>
+                                            <p id="aiSummary"
+                                                class="body bg-gray-50 p-2 rounded-lg text-neutral-900 border text-sm">
+                                            </p>
+                                        </div>
+                                        <!-- AI Sentiment -->
+                                        <div class="mb-4">
+                                            <div class="small font-semibold">Phân tích cảm xúc</div>
+                                            <div id="aiSentiment" class="mt-1"></div>
+                                        </div>
+                                        <!-- AI Suggestions -->
+                                        <div>
+                                            <div class="small font-semibold">Gợi ý phản hồi</div>
+                                            <div id="aiSuggestions" class="space-y-2 mt-1">
+                                                <!-- buttons will be added by JS -->
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -887,8 +965,8 @@
                         <!-- STUDENT PROFILE OVERVIEW -->
                         <div data-view="student-profile">
                             <div class="mb-4">
-                                <div class="h1" id="studentNameTitle">Student Profile</div>
-                                <div class="small">Overview and history</div>
+                                <div class="h1" id="studentNameTitle">Hồ sơ Học viên</div>
+                                <div class="small">Tổng quan và lịch sử</div>
                             </div>
 
                             <div class="grid-12">
@@ -902,7 +980,8 @@
                                             <div class="text-xl font-bold" id="studentName">—</div>
                                             <div class="small" id="studentContact">—</div>
                                         </div>
-                                        <button class="btn btn-secondary" data-nav="students">Back to Students</button>
+                                        <button class="btn btn-secondary" data-nav="students">Quay lại DS Học
+                                            viên</button>
                                     </div>
                                 </div>
 
@@ -911,11 +990,11 @@
                                     data-span-tablet="12" data-span-mobile="12">
                                     <div class="flex border-b">
                                         <button class="px-4 py-3 font-semibold text-primary border-b-2 border-primary"
-                                            data-student-tab="tickets">Tickets history</button>
+                                            data-student-tab="tickets">Lịch sử ticket</button>
                                         <button class="px-4 py-3 font-semibold hover:bg-gray-50"
-                                            data-student-tab="notes">Notes</button>
+                                            data-student-tab="notes">Ghi chú</button>
                                         <button class="px-4 py-3 font-semibold hover:bg-gray-50"
-                                            data-student-tab="timeline">Course timeline</button>
+                                            data-student-tab="timeline">Tiến trình học</button>
                                     </div>
                                     <div class="p-4">
                                         <div data-tab-panel="tickets">
@@ -925,9 +1004,10 @@
                                             <form id="addNoteForm" onsubmit="event.preventDefault();" class="mb-3">
                                                 <textarea id="noteInput"
                                                     class="w-full bg-[#F8FAFC] border rounded-lg p-3" rows="3"
-                                                    placeholder="Add a note..."></textarea>
+                                                    placeholder="Thêm ghi chú..."></textarea>
                                                 <div class="mt-2 flex justify-end">
-                                                    <button class="btn btn-primary" id="addNoteBtn">Add note</button>
+                                                    <button class="btn btn-primary" id="addNoteBtn">Thêm ghi
+                                                        chú</button>
                                                 </div>
                                             </form>
                                             <div id="notesList" class="space-y-2"></div>
@@ -937,22 +1017,22 @@
                                                 <div class="flex items-start gap-3">
                                                     <div class="w-2 h-2 mt-2 rounded-full bg-secondary"></div>
                                                     <div>
-                                                        <div class="font-semibold">Enrolled in "Intro to Data"</div>
-                                                        <div class="small">Feb 3, 2025</div>
+                                                        <div class="font-semibold">Đăng ký "Intro to Data"</div>
+                                                        <div class="small">03/02/2025</div>
                                                     </div>
                                                 </div>
                                                 <div class="flex items-start gap-3">
                                                     <div class="w-2 h-2 mt-2 rounded-full bg-primary"></div>
                                                     <div>
-                                                        <div class="font-semibold">Completed Module 1</div>
-                                                        <div class="small">Feb 10, 2025</div>
+                                                        <div class="font-semibold">Hoàn thành Module 1</div>
+                                                        <div class="small">10/02/2025</div>
                                                     </div>
                                                 </div>
                                                 <div class="flex items-start gap-3">
                                                     <div class="w-2 h-2 mt-2 rounded-full bg-accent"></div>
                                                     <div>
-                                                        <div class="font-semibold">Requested support on assignment</div>
-                                                        <div class="small">Feb 12, 2025</div>
+                                                        <div class="font-semibold">Yêu cầu hỗ trợ bài tập</div>
+                                                        <div class="small">12/02/2025</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -963,11 +1043,111 @@
                             </div>
                         </div>
 
+                        <!-- AI AGENT DASHBOARD -->
+                        <div data-view="ai-agent">
+                            <div class="mb-4">
+                                <div class="h1">AI Agent Dashboard</div>
+                                <div class="small">Theo dõi và cấu hình các tự động hóa của AI</div>
+                            </div>
+                            <div class="grid-12">
+                                <div class="card p-4" data-grid-span data-span-desktop="4" data-span-tablet="6"
+                                    data-span-mobile="12">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="small">Tự động giải quyết</div>
+                                            <div class="text-3xl font-extrabold mt-1">24%</div>
+                                        </div>
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-emerald-50 text-secondary grid place-items-center">
+                                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                                                <path d="M22 4L12 14.01l-3-3" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card p-4" data-grid-span data-span-desktop="4" data-span-tablet="6"
+                                    data-span-mobile="12">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="small">CSAT với AI</div>
+                                            <div class="text-3xl font-extrabold mt-1">4.5/5</div>
+                                        </div>
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-orange-50 text-accent grid place-items-center">
+                                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <path
+                                                    d="M12 17l-5 3 1.5-5.5L4 10l5.6-.5L12 4l2.4 5.5L20 10l-4.5 4.5L17 20z"
+                                                    stroke-width="2" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card p-4" data-grid-span data-span-desktop="4" data-span-tablet="12"
+                                    data-span-mobile="12">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="small">Câu hỏi đã trả lời</div>
+                                            <div class="text-3xl font-extrabold mt-1">1,204</div>
+                                        </div>
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-blue-50 text-primary grid place-items-center">
+                                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <path d="M21 15a4 4 0 01-4 4H7l-4 4V5a4 4 0 014-4h10a4 4 0 014 4v10z"
+                                                    stroke-width="2" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card p-4" data-grid-span data-span-desktop="6" data-span-tablet="12"
+                                    data-span-mobile="12">
+                                    <div class="h2 mb-2">Chủ đề phổ biến</div>
+                                    <div class="space-y-2">
+                                        <div class="small">Không vào được khóa học <div
+                                                class="w-full bg-gray-200 rounded-full h-1.5">
+                                                <div class="bg-primary h-1.5 rounded-full" style="width: 75%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="small">Yêu cầu hoàn tiền <div
+                                                class="w-full bg-gray-200 rounded-full h-1.5">
+                                                <div class="bg-primary h-1.5 rounded-full" style="width: 45%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="small">Sự cố nộp bài <div
+                                                class="w-full bg-gray-200 rounded-full h-1.5">
+                                                <div class="bg-primary h-1.5 rounded-full" style="width: 20%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card p-4" data-grid-span data-span-desktop="6" data-span-tablet="12"
+                                    data-span-mobile="12">
+                                    <div class="h2 mb-2">Quy tắc tự động hóa</div>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+                                            <span class="body">Nếu ticket chứa 'mật khẩu', tự động gán cho team
+                                                IT.</span>
+                                            <button class="btn">Sửa</button>
+                                        </div>
+                                        <div class="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+                                            <span class="body">Nếu ticket về 'hoàn tiền', tự động gắn tag
+                                                'refund'.</span>
+                                            <button class="btn">Sửa</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                         <!-- STUDENTS LIST (simple draft to open profile) -->
                         <div data-view="students">
                             <div class="mb-4">
-                                <div class="h1">Students</div>
-                                <div class="small">Basic access list (draft)</div>
+                                <div class="h1">Học viên</div>
+                                <div class="small">Danh sách cơ bản (bản nháp)</div>
                             </div>
                             <div class="card p-3">
                                 <div id="studentsList" class="divide-y">
@@ -979,14 +1159,14 @@
                         <!-- REPORTS (placeholder) -->
                         <div data-view="reports">
                             <div class="mb-4">
-                                <div class="h1">Reports</div>
-                                <div class="small">Basic access (placeholder)</div>
+                                <div class="h1">Báo cáo</div>
+                                <div class="small">Truy cập cơ bản (placeholder)</div>
                             </div>
                             <div class="grid-12">
                                 <div class="card p-4" data-grid-span data-span-desktop="12" data-span-tablet="12"
                                     data-span-mobile="12">
-                                    <div class="h2 mb-2">Weekly summary</div>
-                                    <div class="small text-neutral-700">Placeholder chart</div>
+                                    <div class="h2 mb-2">Tổng kết tuần</div>
+                                    <div class="small text-neutral-700">Biểu đồ (placeholder)</div>
                                     <div class="mt-4 grid grid-cols-3 gap-4">
                                         <div class="h-24 rounded bg-blue-50"></div>
                                         <div class="h-24 rounded bg-orange-50"></div>
@@ -1000,20 +1180,20 @@
                         <div data-view="knowledge">
                             <div class="mb-4">
                                 <div class="h1">Knowledge Base</div>
-                                <div class="small">Quick answers & articles</div>
+                                <div class="small">Câu trả lời & bài viết nhanh</div>
                             </div>
                             <div class="card p-4 space-y-3">
                                 <div class="flex items-center justify-between">
-                                    <div class="font-semibold">Resetting passwords for students</div>
-                                    <button class="btn btn-secondary">Open</button>
+                                    <div class="font-semibold">Hướng dẫn reset mật khẩu cho học viên</div>
+                                    <button class="btn btn-secondary">Mở</button>
                                 </div>
                                 <div class="flex items-center justify-between">
-                                    <div class="font-semibold">Refund policy overview</div>
-                                    <button class="btn btn-secondary">Open</button>
+                                    <div class="font-semibold">Tổng quan chính sách hoàn tiền</div>
+                                    <button class="btn btn-secondary">Mở</button>
                                 </div>
                                 <div class="flex items-center justify-between">
-                                    <div class="font-semibold">How to submit assignments</div>
-                                    <button class="btn btn-secondary">Open</button>
+                                    <div class="font-semibold">Cách nộp bài tập trên hệ thống</div>
+                                    <button class="btn btn-secondary">Mở</button>
                                 </div>
                             </div>
                         </div>
@@ -1021,17 +1201,17 @@
                         <!-- SETTINGS (placeholder) -->
                         <div data-view="settings">
                             <div class="mb-4">
-                                <div class="h1">Settings</div>
-                                <div class="small">Profile & preferences</div>
+                                <div class="h1">Cài đặt</div>
+                                <div class="small">Hồ sơ & tùy chọn</div>
                             </div>
                             <form class="card p-4 max-w-xl" onsubmit="event.preventDefault();">
                                 <div class="grid grid-cols-2 gap-3">
                                     <div>
-                                        <label class="small block mb-1">First name</label>
+                                        <label class="small block mb-1">Tên</label>
                                         <input class="w-full bg-[#F8FAFC] border rounded-lg px-3 py-2" value="Linh">
                                     </div>
                                     <div>
-                                        <label class="small block mb-1">Last name</label>
+                                        <label class="small block mb-1">Họ</label>
                                         <input class="w-full bg-[#F8FAFC] border rounded-lg px-3 py-2" value="Tran">
                                     </div>
                                     <div class="col-span-2">
@@ -1041,8 +1221,8 @@
                                     </div>
                                 </div>
                                 <div class="mt-4 flex items-center gap-2">
-                                    <button class="btn btn-primary">Save</button>
-                                    <span class="small">This is a demo form</span>
+                                    <button class="btn btn-primary">Lưu</button>
+                                    <span class="small">Đây là form demo</span>
                                 </div>
                             </form>
                         </div>
@@ -1058,7 +1238,7 @@
                                 <!-- Colors -->
                                 <div class="card p-4" data-grid-span data-span-desktop="6" data-span-tablet="12"
                                     data-span-mobile="12">
-                                    <div class="h2 mb-3">Colors</div>
+                                    <div class="h2 mb-3">Màu sắc</div>
                                     <div class="grid grid-cols-3 gap-3">
                                         <div>
                                             <div class="swatch bg-primary"></div>
@@ -1090,7 +1270,7 @@
                                 <!-- Typography -->
                                 <div class="card p-4" data-grid-span data-span-desktop="6" data-span-tablet="12"
                                     data-span-mobile="12">
-                                    <div class="h2 mb-3">Typography</div>
+                                    <div class="h2 mb-3">Kiểu chữ</div>
                                     <div class="mb-2 h1">Heading 1 · 28px</div>
                                     <div class="mb-2 h2">Heading 2 · 20px</div>
                                     <div class="mb-2 body">Body · 14–16px recommended for content</div>
@@ -1111,7 +1291,7 @@
                                 <!-- Cards & Pills -->
                                 <div class="card p-4" data-grid-span data-span-desktop="6" data-span-tablet="12"
                                     data-span-mobile="12">
-                                    <div class="h2 mb-3">Cards & Status</div>
+                                    <div class="h2 mb-3">Cards & Trạng thái</div>
                                     <div class="grid grid-cols-2 gap-3">
                                         <div class="card p-3">
                                             <div class="font-semibold">Card</div>
@@ -1153,7 +1333,7 @@
 
                     <!-- Footer -->
                     <footer class="app-footer px-6 py-4 text-center small" data-layer="footer">
-                        © 2025 EduSys · CSKH Portal · v1.0 Draft
+                        © 2025 EduSys · CSKH Portal · v2.0 (AI Enhanced)
                     </footer>
                 </section>
             </div>
@@ -1166,7 +1346,7 @@
                 class="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow-2xl w-[520px] max-w-[92vw] hidden z-50">
                 <form id="createForm" onsubmit="event.preventDefault();" class="p-5">
                     <div class="flex items-center justify-between mb-3">
-                        <div class="h2">New Ticket</div>
+                        <div class="h2">Ticket Mới</div>
                         <button type="button" id="closeCreate"
                             class="w-9 h-9 rounded-md hover:bg-gray-100 grid place-items-center">
                             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -1176,12 +1356,12 @@
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <div class="col-span-2">
-                            <label class="small block mb-1">Subject</label>
+                            <label class="small block mb-1">Chủ đề</label>
                             <input id="createSubject" class="w-full bg-[#F8FAFC] border rounded-lg px-3 py-2"
-                                placeholder="Short description">
+                                placeholder="Mô tả ngắn gọn">
                         </div>
                         <div>
-                            <label class="small block mb-1">Priority</label>
+                            <label class="small block mb-1">Ưu tiên</label>
                             <select id="createPriority" class="w-full bg-[#F8FAFC] border rounded-lg px-3 py-2">
                                 <option>Low</option>
                                 <option>Medium</option>
@@ -1189,7 +1369,7 @@
                             </select>
                         </div>
                         <div>
-                            <label class="small block mb-1">Channel</label>
+                            <label class="small block mb-1">Kênh</label>
                             <select id="createChannel" class="w-full bg-[#F8FAFC] border rounded-lg px-3 py-2">
                                 <option>email</option>
                                 <option>chat</option>
@@ -1197,15 +1377,15 @@
                             </select>
                         </div>
                         <div class="col-span-2">
-                            <label class="small block mb-1">Student</label>
+                            <label class="small block mb-1">Học viên</label>
                             <select id="createStudent" class="w-full bg-[#F8FAFC] border rounded-lg px-3 py-2">
                                 <!-- filled by JS -->
                             </select>
                         </div>
                     </div>
                     <div class="mt-4 flex items-center justify-end gap-2">
-                        <button type="button" class="btn" id="cancelCreate">Cancel</button>
-                        <button class="btn btn-primary" id="createSubmit">Create</button>
+                        <button type="button" class="btn" id="cancelCreate">Hủy</button>
+                        <button class="btn btn-primary" id="createSubmit">Tạo</button>
                     </div>
                 </form>
             </div>
@@ -1228,50 +1408,79 @@
 
         const tickets = [
             {
-                id: 'TCK-1024', subject: 'Cannot access course materials', status: 'Open', priority: 'High', channel: 'email', updated: '2h ago', assignee: 'Linh Tran', studentId: 'stu-1',
+                id: 'TCK-1024', subject: 'Không truy cập được tài liệu khóa học', status: 'Open', priority: 'High', channel: 'email', updated: '2h ago', assignee: 'Linh Tran', studentId: 'stu-1',
                 messages: [
-                    { sender: 'Customer', text: 'Hi, I cannot access Module 2. It shows an error.', time: '09:10' },
-                    { sender: 'Agent', text: 'Hello Mai, I’m checking this for you now.', time: '09:12' }
-                ]
+                    { sender: 'Customer', text: 'Chào bạn, tôi không truy cập được Module 2. Hệ thống báo lỗi.', time: '09:10' },
+                    { sender: 'Agent', text: 'Chào Mai, tôi đang kiểm tra vấn đề này cho bạn.', time: '09:12' }
+                ],
+                aiAnalysis: {
+                    summary: "Học viên Mai không truy cập được Module 2 và nhận được thông báo lỗi. Nhân viên đã tiếp nhận và đang trong quá trình kiểm tra.",
+                    sentiment: "Bực bội", // Bực bội | Trung lập | Hài lòng
+                    suggestions: [
+                        "Chào Mai, bộ phận kỹ thuật đã kiểm tra và khắc phục sự cố. Bạn vui lòng thử lại và báo cho chúng tôi nếu vẫn còn lỗi nhé.",
+                        "Tôi đã chuyển vấn đề này cho bộ phận kỹ thuật để xử lý. Chúng tôi sẽ phản hồi lại bạn ngay khi có thông tin mới.",
+                        "Để kiểm tra kỹ hơn, bạn vui lòng cung cấp thêm ảnh chụp màn hình lỗi được không?"
+                    ]
+                }
             },
             {
-                id: 'TCK-1023', subject: 'Refund request for course', status: 'Pending', priority: 'Medium', channel: 'chat', updated: '6h ago', assignee: 'Linh Tran', studentId: 'stu-2',
+                id: 'TCK-1023', subject: 'Yêu cầu hoàn tiền khóa học', status: 'Pending', priority: 'Medium', channel: 'chat', updated: '6h ago', assignee: 'Linh Tran', studentId: 'stu-2',
                 messages: [
-                    { sender: 'Customer', text: 'I would like to request a refund.', time: '08:35' },
-                    { sender: 'Agent', text: 'Sure, I’ll guide you through our policy.', time: '08:40' }
-                ]
+                    { sender: 'Customer', text: 'Tôi muốn yêu cầu hoàn tiền.', time: '08:35' },
+                    { sender: 'Agent', text: 'Chào bạn, tôi sẽ hướng dẫn bạn về chính sách của chúng tôi.', time: '08:40' }
+                ],
+                aiAnalysis: {
+                    summary: "Học viên Anh Lê yêu cầu hoàn tiền. Nhân viên đang tư vấn về chính sách.",
+                    sentiment: "Trung lập",
+                    suggestions: ["Bạn vui lòng tham khảo chính sách hoàn tiền tại [link].", "Để tiến hành, bạn cần điền vào biểu mẫu yêu cầu hoàn tiền này."]
+                }
             },
             {
-                id: 'TCK-1022', subject: 'Assignment submission issue', status: 'Resolved', priority: 'Low', channel: 'phone', updated: 'Yesterday', assignee: 'Minh Vu', studentId: 'stu-3',
+                id: 'TCK-1022', subject: 'Sự cố nộp bài tập', status: 'Resolved', priority: 'Low', channel: 'phone', updated: 'Hôm qua', assignee: 'Minh Vu', studentId: 'stu-3',
                 messages: [
-                    { sender: 'Customer', text: 'File upload keeps failing.', time: '14:10' },
-                    { sender: 'Agent', text: 'It’s fixed now. Please try again.', time: '14:25' }
-                ]
+                    { sender: 'Customer', text: 'Tải file lên cứ bị lỗi hoài.', time: '14:10' },
+                    { sender: 'Agent', text: 'Đã sửa rồi ạ. Anh thử lại nhé.', time: '14:25' }
+                ],
+                aiAnalysis: {
+                    summary: "Học viên Bảo gặp lỗi khi tải file bài tập. Vấn đề đã được giải quyết.",
+                    sentiment: "Hài lòng",
+                    suggestions: ["Rất vui vì đã hỗ trợ được bạn. Nếu có vấn đề gì khác, đừng ngần ngại liên hệ nhé!"]
+                }
             },
             {
-                id: 'TCK-1021', subject: 'Change email address', status: 'Open', priority: 'Low', channel: 'email', updated: '3h ago', assignee: 'Lan Pham', studentId: 'stu-2',
+                id: 'TCK-1021', subject: 'Thay đổi địa chỉ email', status: 'Open', priority: 'Low', channel: 'email', updated: '3h ago', assignee: 'Lan Pham', studentId: 'stu-2',
                 messages: [
-                    { sender: 'Customer', text: 'I need to update my email address.', time: '10:40' }
-                ]
+                    { sender: 'Customer', text: 'Tôi cần cập nhật địa chỉ email của mình.', time: '10:40' }
+                ],
+                aiAnalysis: {
+                    summary: "Học viên muốn cập nhật địa chỉ email.",
+                    sentiment: "Trung lập",
+                    suggestions: ["Để thay đổi email, bạn vui lòng xác nhận danh tính bằng cách cung cấp [thông tin X] nhé."]
+                }
             },
             {
-                id: 'TCK-1020', subject: 'Certificate not showing', status: 'Open', priority: 'Medium', channel: 'chat', updated: '1d ago', assignee: 'Linh Tran', studentId: 'stu-1',
+                id: 'TCK-1020', subject: 'Chứng chỉ không hiển thị', status: 'Open', priority: 'Medium', channel: 'chat', updated: '1d ago', assignee: 'Linh Tran', studentId: 'stu-1',
                 messages: [
-                    { sender: 'Customer', text: 'My certificate does not appear.', time: '12:15' }
-                ]
+                    { sender: 'Customer', text: 'Chứng chỉ của tôi không hiển thị.', time: '12:15' }
+                ],
+                aiAnalysis: {
+                    summary: "Học viên Mai không thấy chứng chỉ sau khi hoàn thành khóa học.",
+                    sentiment: "Bực bội",
+                    suggestions: ["Thông thường chứng chỉ sẽ được cấp trong vòng 24 giờ. Tôi đang kiểm tra hệ thống, bạn vui lòng đợi nhé."]
+                }
             }
         ];
 
         let appState = {
-            currentView: 'tickets', // tickets | ticket | student-profile | students | reports | knowledge | settings | components
+            currentView: 'inbox', // dashboard | inbox | ticket | student-profile | students | reports | knowledge | settings | components | ai-agent
             selectedTicketId: null,
             selectedStudentId: null,
             device: 'desktop', // desktop | tablet | mobile
             sidebarCollapsed: false,
             notifications: [
-                { id: 'n1', text: 'New ticket from Mai Nguyen', read: false },
-                { id: 'n2', text: 'Ticket TCK-1023 waiting for response', read: false },
-                { id: 'n3', text: 'Daily summary is ready', read: true },
+                { id: 'n1', text: 'Ticket mới từ Mai Nguyen', read: false },
+                { id: 'n2', text: 'Ticket TCK-1023 đang chờ phản hồi', read: false },
+                { id: 'n3', text: 'Báo cáo ngày đã sẵn sàng', read: true },
             ]
         };
 
@@ -1297,13 +1506,11 @@
         }
         function setView(view) {
             appState.currentView = view;
-            // hash navigation
             try { location.hash = '#' + view; } catch (e) { }
             $$('[data-view]').forEach(v => v.classList.remove('active'));
             const el = document.querySelector(`[data-view="${view}"]`);
             if (el) { el.classList.add('active'); }
             applyActiveNav();
-            // close mobile sidebar on navigation
             if (appState.device === 'mobile') { $('#sidebar').classList.remove('open'); }
         }
 
@@ -1312,6 +1519,7 @@
             $('#kpiOpen').textContent = openCount;
             $('#kpiART').textContent = '1h 42m';
             $('#kpiCSAT').textContent = '4.7/5';
+            $('#kpiAiAssisted').textContent = '35%'; // Mock data
         }
 
 
@@ -1379,7 +1587,7 @@
 
             // Conversation
             const conv = $('#conversation'); conv.innerHTML = '';
-            t.messages.forEach(m => {
+            (t.messages || []).forEach(m => {
                 const wrap = document.createElement('div');
                 wrap.className = `flex ${m.sender === 'Agent' ? 'justify-end' : 'justify-start'}`;
                 const bubble = document.createElement('div');
@@ -1389,15 +1597,46 @@
                 conv.appendChild(wrap);
             });
 
+            // AI Panel
+            const aiPanel = $('#aiAgentPanel');
+            if (t.aiAnalysis) {
+                aiPanel.classList.remove('hidden');
+                $('#aiSummary').textContent = t.aiAnalysis.summary;
+
+                // Sentiment
+                const sentimentEl = $('#aiSentiment');
+                let sentimentClass = 'pill-sentiment-neutral';
+                if (t.aiAnalysis.sentiment === 'Bực bội') sentimentClass = 'pill-sentiment-negative';
+                if (t.aiAnalysis.sentiment === 'Hài lòng') sentimentClass = 'pill-sentiment-positive';
+                sentimentEl.innerHTML = `<span class="pill ${sentimentClass}">${t.aiAnalysis.sentiment}</span>`;
+
+                // Suggestions
+                const suggestionsEl = $('#aiSuggestions');
+                suggestionsEl.innerHTML = '';
+                (t.aiAnalysis.suggestions || []).forEach(sugg => {
+                    const btn = document.createElement('button');
+                    btn.className = 'btn btn-ai body';
+                    btn.textContent = sugg;
+                    btn.onclick = () => {
+                        $('#replyInput').value = sugg;
+                        $('#replyInput').focus();
+                    };
+                    suggestionsEl.appendChild(btn);
+                });
+            } else {
+                aiPanel.classList.add('hidden');
+            }
+
+
             // Toggle Status Button
             const toggleBtn = $('#toggleStatusBtn');
-            if (t.status === 'Open') { toggleBtn.textContent = 'Set Pending'; }
-            else if (t.status === 'Pending') { toggleBtn.textContent = 'Resolve'; }
-            else { toggleBtn.textContent = 'Reopen'; }
+            if (t.status === 'Open') { toggleBtn.textContent = 'Chuyển Pending'; }
+            else if (t.status === 'Pending') { toggleBtn.textContent = 'Giải quyết'; }
+            else { toggleBtn.textContent = 'Mở lại'; }
             toggleBtn.onclick = () => {
                 const stateFlow = { 'Open': 'Pending', 'Pending': 'Resolved', 'Resolved': 'Open' };
                 t.status = stateFlow[t.status];
-                t.updated = 'Just now';
+                t.updated = 'Vừa xong';
                 openTicket(t.id); // re-render
                 renderTicketTable();
                 renderRecentTickets();
@@ -1405,7 +1644,7 @@
             };
             $('#escalateBtn').onclick = () => {
                 t.priority = 'High';
-                t.updated = 'Just now';
+                t.updated = 'Vừa xong';
                 showToast('Đã leo thang ticket ' + t.id);
                 openTicket(t.id); // re-render
                 renderTicketTable();
@@ -1450,7 +1689,7 @@
             <span class="${formatStatusPill(t.status)}">${t.status}</span>
             <span class="font-semibold">${t.subject}</span>
           </div>
-          <button class="btn btn-secondary">Open</button>
+          <button class="btn btn-secondary">Mở</button>
         `;
                 item.querySelector('button').addEventListener('click', () => openTicket(t.id));
                 list.appendChild(item);
@@ -1489,18 +1728,14 @@
             if (appState.currentView === 'inbox') {
                 $('#filterSearch').value = term;
                 renderTicketTable();
-                showToast('Filtered tickets by search');
+                showToast('Đã lọc tickets theo tìm kiếm');
             } else if (appState.currentView === 'students') {
-                // Simple: navigate to Students and highlight match
-                setView('students');
-                // For brevity, no highlight—could be added later
-                showToast('Search focuses on tickets & students');
+                showToast('Tìm kiếm tập trung vào tickets & học viên');
             } else {
-                // default: go to Inbox with query
                 setView('inbox');
                 $('#filterSearch').value = term;
                 renderTicketTable();
-                showToast('Filtered tickets by search');
+                showToast('Đã lọc tickets theo tìm kiếm');
             }
         }
 
@@ -1509,7 +1744,7 @@
             const list = $('#notifList'); list.innerHTML = '';
             appState.notifications.forEach(n => {
                 const row = document.createElement('div');
-                row.className = 'px-3 py-2 rounded flex items-center justify-between hover:bg-gray-50';
+                row.className = 'px-3 py-2 rounded flex items-center justify-between hover:bg-gray-50 cursor-pointer';
                 row.innerHTML = `<span class="${n.read ? '' : 'font-semibold'}">${n.text}</span>
           <span class="w-2 h-2 rounded-full ${n.read ? 'bg-transparent' : 'bg-accent'}"></span>`;
                 row.addEventListener('click', () => {
@@ -1524,13 +1759,10 @@
             $('#notifDot').style.display = unread ? 'block' : 'none';
         }
 
-        // Component Library: no dynamic code needed beyond layout
-
         // Grid spans per device
         function applyGridSpans() {
             const device = appState.device;
             $$('[data-grid-span]').forEach(el => {
-                // Remove existing col-span classes
                 el.className = el.className.replace(/col-span-\d{1,2}/g, '').trim();
                 const span = el.getAttribute(`data-span-${device}`) || '12';
                 el.classList.add(`col-span-${span}`);
@@ -1542,21 +1774,19 @@
             appState.sidebarCollapsed = collapsed;
             const s = $('#sidebar');
             s.classList.toggle('collapsed', collapsed);
+            $('#collapseBtn').textContent = collapsed ? 'Mở rộng' : 'Thu gọn';
         }
 
         // Device controls
         function setDevice(device) {
             appState.device = device;
             $('#app').setAttribute('data-device', device);
-            // Frame width
             const frame = $('#frame');
             if (device === 'desktop') { frame.style.width = '1200px'; }
             if (device === 'tablet') { frame.style.width = '1024px'; }
             if (device === 'mobile') { frame.style.width = '375px'; }
-            // Buttons pressed state
             $$('[data-device-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.deviceBtn === device)));
             applyGridSpans();
-            // Sidebar behavior
             if (device === 'tablet') { setSidebarCollapsed(true); }
             if (device === 'desktop') { setSidebarCollapsed(false); $('#sidebar').classList.remove('open'); }
             if (device === 'mobile') { $('#sidebar').classList.remove('collapsed'); }
@@ -1571,49 +1801,41 @@
 
         // --- Event bindings ---
         window.addEventListener('hashchange', () => {
-            const view = location.hash.replace('#', '') || 'dashboard';
+            const view = location.hash.replace('#', '') || 'inbox';
             if ($(`[data-view="${view}"]`)) setView(view);
         });
 
-        // Nav clicks
         document.addEventListener('click', (e) => {
             const nav = e.target.closest('[data-nav]');
-            if (nav) {
-                setView(nav.dataset.nav);
-            }
+            if (nav) setView(nav.dataset.nav);
         });
 
-        // Sidebar controls
         $('#collapseBtn').addEventListener('click', () => setSidebarCollapsed(!appState.sidebarCollapsed));
         $('#hamburgerBtn').addEventListener('click', () => $('#sidebar').classList.toggle('open'));
 
-        // Filters
         $('#inboxFilters').addEventListener('input', renderTicketTable);
         $('#clearFilters').addEventListener('click', () => {
             $('#filterStatus').value = ''; $('#filterPriority').value = ''; $('#filterSearch').value = '';
             renderTicketTable();
         });
 
-        // Global Search
         $('#globalSearchForm').addEventListener('submit', () => {
             globalSearch($('#globalSearchInput').value);
         });
 
-        // Ticket reply
         $('#replyForm').addEventListener('submit', () => {
             const text = $('#replyInput').value.trim();
             if (!text) return;
             const t = tickets.find(tt => tt.id === appState.selectedTicketId);
             if (!t) return;
             t.messages.push({ sender: 'Agent', text, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
-            t.updated = 'Just now';
+            t.updated = 'Vừa xong';
             $('#replyInput').value = '';
             openTicket(t.id);
             renderTicketTable();
             renderRecentTickets();
         });
 
-        // Student tabs
         $$('[data-student-tab]').forEach(b => {
             b.addEventListener('click', () => setStudentTab(b.dataset.studentTab));
         });
@@ -1624,10 +1846,9 @@
             s.notes.push({ text, time: new Date().toLocaleString() });
             $('#noteInput').value = '';
             openStudent(s.id);
-            showToast('Note added');
+            showToast('Đã thêm ghi chú');
         });
 
-        // Notifications
         $('#notifBtn').addEventListener('click', () => {
             $('#notifMenu').classList.toggle('hidden');
             $('#avatarMenu').classList.add('hidden');
@@ -1639,14 +1860,12 @@
             updateNotifDot();
         });
 
-        // Avatar dropdown
         $('#avatarBtn').addEventListener('click', () => {
             $('#avatarMenu').classList.toggle('hidden');
             $('#notifMenu').classList.add('hidden');
         });
-        $('#signOutBtn').addEventListener('click', () => showToast('Demo only — not a real sign out'));
+        $('#signOutBtn').addEventListener('click', () => showToast('Demo only — không phải đăng xuất thật'));
 
-        // Close dropdowns if clicking outside
         document.addEventListener('click', (e) => {
             if (!e.target.closest('#notifBtn') && !e.target.closest('#notifMenu')) {
                 $('#notifMenu').classList.add('hidden');
@@ -1656,7 +1875,6 @@
             }
         });
 
-        // Quick Create Modal
         function openCreateModal() {
             $('#backdrop').classList.add('show');
             $('#createModal').classList.remove('hidden');
@@ -1670,7 +1888,6 @@
         $('#cancelCreate').addEventListener('click', closeCreateModal);
         $('#backdrop').addEventListener('click', (e) => { if (e.target.id === 'backdrop') closeCreateModal(); });
 
-        // Create form populate & submit
         function populateCreateStudents() {
             const sel = $('#createStudent');
             sel.innerHTML = students.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
@@ -1680,39 +1897,39 @@
             const priority = $('#createPriority').value;
             const channel = $('#createChannel').value;
             const studentId = $('#createStudent').value;
-            if (!subject) { showToast('Please enter a subject'); return; }
-            const newId = 'TCK-' + (Math.floor(Math.random() * 9000) + 1000);
+            if (!subject) { showToast('Vui lòng nhập chủ đề'); return; }
+            const newId = 'TCK-' + (Math.floor(Math.random() * 900) + 1030);
             const t = {
-                id: newId, subject, status: 'Open', priority, channel, updated: 'Just now', assignee: 'Linh Tran', studentId,
-                messages: [{ sender: 'Customer', text: subject, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }]
+                id: newId, subject, status: 'Open', priority, channel, updated: 'Vừa xong', assignee: 'Linh Tran', studentId,
+                messages: [{ sender: 'Customer', text: subject, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }],
+                aiAnalysis: {
+                    summary: "Đây là tóm tắt tự động cho ticket mới tạo.",
+                    sentiment: "Trung lập",
+                    suggestions: ["Chào bạn, chúng tôi đã nhận được yêu cầu của bạn và sẽ xử lý sớm nhất có thể."]
+                }
             };
             tickets.unshift(t);
             renderTicketTable();
             renderRecentTickets();
             updateKpis();
             closeCreateModal();
-            setView('inbox');
-            showToast('Ticket created');
-            // reset fields
+            openTicket(t.id);
+            showToast('Đã tạo ticket');
             $('#createSubject').value = '';
             $('#createPriority').value = 'Low';
             $('#createChannel').value = 'email';
         });
 
-        // Device controls
         $$('[data-device-btn]').forEach(b => {
             b.addEventListener('click', () => setDevice(b.dataset.deviceBtn));
         });
         $('#fitBtn').addEventListener('click', fitToWindow);
         window.addEventListener('resize', () => {
-            // keep frame within viewport when in "Fit"
             if (!$$('[data-device-btn][aria-pressed="true"]').length) fitToWindow();
         });
 
-        // Initial render
         function init() {
-            // Use hash if present
-            const initial = location.hash.replace('#', '') || 'ticket'; // đổi từ 'dashboard' thành 'inbox'
+            const initial = location.hash.replace('#', '') || 'inbox';
             setView(initial);
             updateKpis();
             renderRecentTickets();
@@ -1725,8 +1942,6 @@
         }
         init();
     </script>
-
-    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'982ee39141499949',t:'MTc1ODUxMzU1OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
 </body>
 
 </html>
